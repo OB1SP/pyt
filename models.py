@@ -25,3 +25,5 @@ ennemis = [
     {"nom": "Loup-garou", "ATK": 28, "DEF": 18, "PV": 180},
     {"nom": "Squelette", "ATK": 15, "DEF": 7, "PV": 90}
 ]
+
+score=[{}]
