@@ -1,19 +1,21 @@
 import os
 import time
-from models import *
 import game
+from models import *
 from pymongo import MongoClient
 
-
-
-
 def print_menu():
-    print("""_____                              
-  /     \ _____    ____ ______ ___.__.
- /  \ /  \\__  \  /    \\____ <   |  |
-/    Y    \/ __ \|   |  \  |_> >___  |
-\____|__  (____  /___|  /   __// ____|
-        \/     \/     \/|__|   \/     """)
+    print("""\n\n$$\      $$\                                               
+$$$\    $$$ |                                              
+$$$$\  $$$$ | $$$$$$\  $$$$$$$\   $$$$$$\  $$\   $$\       
+$$\$$\$$ $$ | \____$$\ $$  __$$\ $$  __$$\ $$ |  $$ |      
+$$ \$$$  $$ | $$$$$$$ |$$ |  $$ |$$ /  $$ |$$ |  $$ |      
+$$ |\$  /$$ |$$  __$$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |      
+$$ | \_/ $$ |\$$$$$$$ |$$ |  $$ |$$$$$$$  |\$$$$$$$ |      
+\__|     \__| \_______|\__|  \__|$$  ____/  \____$$ |      
+                                 $$ |      $$\   $$ |      
+                                 $$ |      \$$$$$$  |      
+                                 \__|       \______/       \n\n\n\n\n""")
     print("1. Lancer le jeu")
     print("2. Voir les scores")
     print("3. Exit\n")
@@ -47,14 +49,20 @@ def lancer_jeu():
 def aff_score():
     c = MongoClient("mongodb://localhost:27017")
     db = c.MonPy
-    r = db.scoreboard.find()
-    for s in r:
-        print(s)
+
+    print("Voici le scoreboards des pro joeurs : ")
+    scores_trier = refresh_score()
+    for i, score in enumerate(scores_trier, start=1):
+        time.sleep(.3)
+        print(f"{i}. {score["pseudo"]} : {score["points"]} points")
+        
+    input("\n\n\n\n\n\n\nAppuyez sur une touche pour revenir au menu...")
+    main()
 
 def main():
     os.system("cls")
     print_menu()
-    choix = recup_n_valide(1, 3, "Entrer dans le menu : ")
+    choix = recup_n_valide(1, 3, "\n\n\n\n\n\nEntrer dans le menu : ")
     if choix == 1:
         os.system("cls")
         lancer_jeu()
@@ -62,7 +70,7 @@ def main():
         os.system("cls")
         aff_score()
     else:
-        print("Bye bye looser")
+        print("\n\n\n\n\n\nBye bye looser")
         exit()
 
 if __name__ == "__main__":

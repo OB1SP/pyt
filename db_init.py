@@ -28,10 +28,10 @@ e = [
     {"nom": "Squelette", "ATK": 15, "DEF": 7, "PV": 90}
 ]
 
-sc = [{}]
+s = [{"pseudo" : "OB", "points" : 99}]
 
-prso = db.personnages.insert_many(p)
-ennm = db.ennemis.insert_many(e)
-
+prso = db.personnages_db.insert_many(p)
+ennm = db.ennemis_db.insert_many(e)
+sc = db.scoreboards_db.insert_many(s)
 
 db.close

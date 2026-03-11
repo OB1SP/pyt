@@ -1,6 +1,10 @@
-import pymongo
+from pymongo import MongoClient
+import time
+c = MongoClient("mongodb://localhost:27017")
+db = c.MonPy
 
-personnages = [
+# obtenir les personnages et ennemis sans db
+"""personnages = [
     {"nom": "Guerrier", "ATK": 15, "DEF": 10, "PV": 100},
     {"nom": "Mage", "ATK": 20, "DEF": 5, "PV": 80},
     {"nom": "Archer", "ATK": 18, "DEF": 7, "PV": 90},
@@ -25,5 +29,37 @@ ennemis = [
     {"nom": "Loup-garou", "ATK": 28, "DEF": 18, "PV": 180},
     {"nom": "Squelette", "ATK": 15, "DEF": 7, "PV": 90}
 ]
+"""
 
-score=[{}]
+
+perso = db.personnages_db.find()
+enn = db.ennemis_db.find()
+sc = db.scoreboards_db.find()
+
+personnages = []
+ennemis = []
+scores = []
+
+
+for x in perso:
+    personnages.append({"nom" : x["nom"], "ATK" : x["ATK"], "DEF" : x["DEF"], "PV" :x["PV"]}) 
+
+for x in enn:
+    ennemis.append({"nom" : x["nom"], "ATK" : x["ATK"], "DEF" : x["DEF"], "PV" :x["PV"]}) 
+
+#print(scores[0]["points"])
+
+def refresh_score():
+    #global scores
+    #sc = db.scoreboards_db.find_one_and_update()
+    for x in sc:
+        scores.append({"pseudo" : x["pseudo"], "points" : x["points"]}) 
+    scores = sorted(scores, key=lambda x: x["points"], reverse=True)
+    return scores
+
+"""while True:
+    time.sleep(1)
+    print(refresh_score())
+"""
+
+# print(personnages, ennemis)
