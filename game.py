@@ -11,8 +11,6 @@ ennemi = ""
 vague = 0
 value = 0
 
-
-
 def pause():
     time.sleep(1.1)
 
@@ -31,7 +29,6 @@ def afficher_perso():
             
 def choisir_perso():
     #global equipe
-    #equipe = []
     for i in range(3):
         os.system("cls")
         print(f"\nChoisissez votre personnage n°{i+1} : ")
@@ -53,35 +50,40 @@ def choisir_ennemi():
     if ennemis == []:
         print(f"\n\n\n\n\n\n\nBRAVOOO, votre équipe à gagné à la manche {vague} !\n")
         pause()
-        main.main()
+
     x = random.choice(ennemis)
     ennemis.remove(x)
     print(f"\n{x["nom"]} apparait --- ATK : {x["ATK"]}, DEF : {x["DEF"]}, PV : {x["PV"]}\n")
     return x  
 
-
 def attaquer_ennemi(ennemi):
     #global equipier, equipe
+    
     # si l'opps meurt l'equipe gagne
     while ennemi["PV"] >= 0:
         for equipier in equipe:
+
             # si l'opps tue le perso
             if equipier["PV"] <= 0:
                 print(f"\nVotre {equipier["nom"]} est mort...\n")
                 equipe.remove(equipier)
                 break
+
             print(f"{equipier["nom"]} attaque {ennemi["nom"]} et lui inflige {equipier["ATK"]} de dégâts")
             ennemi["PV"] -= equipier["ATK"] 
             print(f"{ennemi["nom"]} à désormais {ennemi["PV"]} PV")
             pause()
+
+        # si l'opps meurt
         if ennemi["PV"] <= 0:
             print(f"\nVotre {equipier["nom"]} vient d'atomiser {ennemi["nom"]} !\n")
             pause()
             print("\n\nVous passez a la prochaine vague..\n")
             time.sleep(3)
             break
+        
         # l'ennemi attaque un perso de l'equipe
-        attaquer_perso()    
+        attaquer_perso(ennemi)    
 
 def ajouter_score():
     c = MongoClient("mongodb://localhost:27017")
@@ -90,10 +92,7 @@ def ajouter_score():
     s = db.scoreboards_db.insert_many(score)
     db.close
 
-def attaquer_perso():
-
-    ennemi = x
-
+def attaquer_perso(ennemi):
     # verifier que tt les membres de l'équipe soit vivant
     if mort():
         print(f"Vous avez perdu la partie à la partie à la manche {vague}...")
@@ -104,16 +103,18 @@ def attaquer_perso():
 
     # choisis un membre de l'équipe au hasard
     perso_a_attaquer = random.choice(equipe)
+
     # affiche qu'il va lui faire des degats
     print(f"\n{ennemi["nom"]} à choisit d'attaquer {perso_a_attaquer["nom"]} et lui inflige {ennemi['ATK']} dégâts !")
+
     # print(f"\n{perso_a_attaquer["nom"]} --- ATK : {perso_a_attaquer["ATK"]}, DEF : {perso_a_attaquer["DEF"]}, PV : {perso_a_attaquer["PV"]}")
+
     #on retire les pv au membre de l'équipe et affiche pv restants
     perso_a_attaquer["PV"] -= ennemi['ATK']
     print(f"\n{perso_a_attaquer["nom"]} à désormais {perso_a_attaquer["PV"]} PV\n")
     pause()
     
 def mort():
-    print("OUI")
     return equipe == []
 
 def combat():
@@ -128,7 +129,6 @@ def combat():
 
         # choisis un ennemi aléatoirement et l'affiche
         ennemi = choisir_ennemi()
-        print(ennemi["nom"])
 
         # chaq perso de l'equipe attaq l'opps
         attaquer_ennemi(ennemi)
@@ -146,5 +146,3 @@ def combat():
     # pour chaq vague faire combattre les perso de l'équipe contre des ennemis
     # si l'équipe gagne passer a la vague suivante
     # si l'équipe perd afficher le score et revenir au menu
-
-

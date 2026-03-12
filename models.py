@@ -38,7 +38,7 @@ sc = db.scoreboards_db.find()
 
 personnages = []
 ennemis = []
-scores = []
+
 
 
 for x in perso:
@@ -48,13 +48,13 @@ for x in enn:
     ennemis.append({"nom" : x["nom"], "ATK" : x["ATK"], "DEF" : x["DEF"], "PV" :x["PV"]}) 
 
 #print(scores[0]["points"])
-
+scores = []
 def refresh_score():
     #global scores
     #sc = db.scoreboards_db.find_one_and_update()
     for x in sc:
         scores.append({"pseudo" : x["pseudo"], "points" : x["points"]}) 
-    scores = sorted(scores, key=lambda x: x["points"], reverse=True)
+    scores_trier = sorted(scores, key=lambda x: x["points"], reverse=True)
     return scores
 
 """while True:

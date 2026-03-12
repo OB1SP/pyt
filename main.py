@@ -51,8 +51,8 @@ def aff_score():
     db = c.MonPy
 
     print("Voici le scoreboards des pro joeurs : ")
-    scores_trier = refresh_score()
-    for i, score in enumerate(scores_trier, start=1):
+    scores = refresh_score()
+    for i, score in enumerate(scores, start=1):
         time.sleep(.3)
         print(f"{i}. {score["pseudo"]} : {score["points"]} points")
         
